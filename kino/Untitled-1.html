@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAD Art Design — Creative Fabrication Studio</title>
+<meta name="description" content="Custom props, sets, sculpture, installations and immersive environments designed and built in Toronto.">
+<style>
+ 
+  :root{
+    --n-800:#070707;
+    --n-700:#222222;
+    --n-600:dimgrey;
+    --n-500:#8c8c8c;
+    --n-400:#b3b3b3;
+    --n-300:#dadada;
+    --n-200:whitesmoke;
+    --n-100:#ffffff;
+    --maxw:1303px;
+
+    --dm-bg:#0b0b0e;
+    --dm-surface:#131314;
+    --dm-ink:#dfebf1;
+    --dm-text:#c7d0da;
+    --dm-muted:#93a0ad;
+    --dm-line:rgba(241,236,223,.14);
+    --dm-accent:#919de6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{max-width:100%;overflow-x:hidden;}
+  body{
+    background:var(--n-100);
+    color:var(--n-600);
+    font-family:'Bounded',sans-serif;
+    font-weight:400;
+    font-size:16px;
+    line-height:1.875em;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  .container{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  h1,h2,h3{color:var(--n-800);font-weight:500;margin:0;}
+  h1{font-size:clamp(32px, 4.2vw + 14px, 56px);line-height:1.28em;}
+  h2{font-size:clamp(26px, 2.6vw + 14px, 40px);line-height:1.28em;}
+  h3{font-size:clamp(19px, 1vw + 14px, 24px);line-height:1.38em;}
+  h4{font-weight:400;font-size:18px;color:var(--n-800);margin:0;}
+  p{margin:0;}
+  .color-white{color:var(--n-100) !important;}
+  .color-white h1, .color-white h2, .color-white h3{color:var(--n-100);}
+
+  /* buttons - square, uppercase, no radius */
+  .btn-primary{
+    display:inline-block;
+    background:var(--n-800);color:var(--n-100);
+    text-align:center;letter-spacing:.04em;text-transform:uppercase;
+    border:1px solid transparent;
+    padding:22px 34px;font-size:14px;line-height:20px;
+    transition:border-color .3s, color .3s, background-color .3s;
+  }
+  .btn-primary:hover{border-color:var(--n-800);color:var(--n-800);background:transparent;}
+  .btn-primary.white{color:var(--n-800);background:var(--n-100);}
+  .btn-primary.white:hover{border-color:var(--n-100);color:var(--n-100);background:transparent;}
+  .btn-secondary{
+    display:inline-block;
+    border:1px solid var(--n-800);color:var(--n-800);
+    text-align:center;letter-spacing:.04em;text-transform:uppercase;
+    background:transparent;padding:22px 34px;font-size:14px;line-height:20px;
+    transition:border-color .3s, color .3s, background-color .3s;
+  }
+  .btn-secondary:hover{background:var(--n-800);color:var(--n-100);}
+  .btn-secondary.dark{border-color:var(--n-100);color:var(--n-100);}
+  .btn-secondary.dark:hover{background:var(--n-100);color:var(--n-800);}
+  .btn-row{display:flex;flex-wrap:wrap;gap:20px;}
+
+  /* subtitle with drawing underline */
+  .subtitle-wrap{
+    display:flex;align-items:flex-end;gap:24px;
+    text-transform:uppercase;letter-spacing:.1em;font-weight:500;font-size:13px;
+    color:var(--n-800);margin-bottom:32px;max-width:320px;
+  }
+  .subtitle-wrap.white{color:var(--n-100);}
+  .underline-track{flex:1;height:1px;background:var(--n-300);position:relative;bottom:6px;overflow:hidden;}
+  .underline-track.white-track{background:rgba(255,255,255,.3);}
+  .underline-fill{position:absolute;inset:0;background:var(--n-800);width:0;transition:width 1.1s cubic-bezier(.65,0,.35,1);}
+  .underline-fill.white-fill{background:var(--n-100);}
+  .underline-track.in-view .underline-fill{width:100%;}
+
+  /* HEADER */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;transition:.3s ease;}
+  header.scrolled{background:var(--n-800);border-bottom-color:transparent;}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;padding:0;}
+  .logo{color:var(--n-100);font-size:18px;letter-spacing:.08em;text-transform:uppercase;padding:24px 0;display:inline-block;}
+  .logo b{font-weight:700;}
+  nav ul{display:flex;align-items:center;}
+  nav a{
+    color:var(--n-400);letter-spacing:.06em;text-transform:uppercase;font-size:13px;
+    padding:38px 16px;display:inline-block;transition:background-color .3s, color .3s;
+  }
+  nav a:hover{color:var(--n-100);background:rgba(255,255,255,.15);}
+  .lang-toggle{display:flex;align-items:center;gap:8px;padding-left:14px;}
+  .lang-toggle button{
+    background:none;border:none;color:var(--n-400);font:inherit;font-size:12px;
+    letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:4px 2px;
+  }
+  .lang-toggle button.active{color:var(--n-100);border-bottom:1px solid var(--n-100);}
+  .lang-toggle i{width:1px;height:11px;background:rgba(255,255,255,.3);display:inline-block;}
+  .header-cta{display:flex;align-items:center;gap:16px;}
+  .theme-toggle{
+    position:relative;width:52px;height:28px;flex:none;
+    border:1px solid var(--n-300);border-radius:999px;
+    background:transparent;cursor:pointer;padding:0;
+    transition:border-color .3s ease;
+  }
+  .theme-toggle:hover{border-color:var(--n-800);}
+  .theme-toggle .tt-icon{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:12px;height:12px;color:var(--n-500);
+    transition:color .3s ease;pointer-events:none;
+  }
+  .theme-toggle .tt-sun{left:6px;}
+  .theme-toggle .tt-moon{right:6px;}
+  .theme-toggle .tt-thumb{
+    position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;
+    background:var(--n-200);
+    transition:left .35s cubic-bezier(.65,0,.35,1), background-color .35s ease;
+  }
+  html[data-theme="dark"] .theme-toggle .tt-thumb{left:calc(100% - 24px);background:var(--dm-accent);}
+  html[data-theme="dark"] .theme-toggle{border-color:var(--dm-line);}
+  html[data-theme="dark"] .theme-toggle:hover{border-color:var(--dm-accent);}
+  html[data-theme="dark"] .theme-toggle .tt-icon{color:var(--dm-muted);}
+  .burger{display:none;flex-direction:column;gap:6px;cursor:pointer;padding:18px;background:none;border:none;}
+  .burger span{width:26px;height:1px;background:var(--n-100);transition:.3s;display:block;}
+  .burger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.active span:nth-child(2){opacity:0;}
+  .burger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu{
+    position:fixed;inset:0;background:var(--n-800);z-index:99;
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:0 24px;
+    transform:translateY(-100%);transition:transform .4s ease;
+  }
+  .mobile-menu.open{transform:translateY(0);}
+  .mobile-menu a{color:var(--n-400);font-size:24px;text-transform:uppercase;letter-spacing:.06em;line-height:1.9em;}
+  .mobile-menu a:hover{color:var(--n-100);}
+  .mobile-menu .mobile-cta{
+    margin-top:18px;font-size:14px;border:1px solid var(--n-100);color:var(--n-100) !important;
+    padding:16px 28px;display:inline-block;letter-spacing:.06em;
+  }
+  .mobile-menu .mobile-lang{margin-top:24px;padding-left:2px;}
+  .mobile-menu .mobile-lang button{font-size:15px;}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;position:relative;color:var(--n-100);
+    background:
+      linear-gradient(rgba(0,0,0,.56), rgba(0,0,0,.56)),
+      url('https://picsum.photos/id/1050/1800/1200') center/cover no-repeat;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.5fr 1fr;gap:29px;width:100%;max-width:var(--maxw);
+    margin:0 auto;padding:0 24px 0 100px;border-left:2px solid var(--n-100);
+  }
+  .hero-inner{max-width:600px;}
+  .hero .lead{color:var(--n-100);text-transform:uppercase;letter-spacing:.06em;font-size:14px;margin-top:20px;}
+  .hero p.hero-text{max-width:520px;margin-top:16px;color:rgba(255,255,255,.8);}
+  .hero .btn-row{margin-top:40px;}
+  .scroll-down{
+    position:absolute;bottom:35px;right:35px;width:48px;height:48px;
+    border:1px solid rgba(255,255,255,.6);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  section{padding:150px 0;}
+  .bg-dark{background:var(--n-800);color:var(--n-300);}
+  .bg-dark h2, .bg-dark h3{color:var(--n-100);}
+  .bg-light{background:var(--n-200);}
+
+  /* ABOUT / BILINGUAL */
+  .about-top{display:grid;grid-template-columns:1fr auto;gap:29px;align-items:center;margin-bottom:40px;}
+  .about-top .btns{justify-self:end;}
+  .lang-copy{display:grid;grid-template-columns:1fr 1fr;gap:29px;margin-bottom:64px;}
+  .lang-copy article h3{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--n-500);margin-bottom:10px;font-weight:500;}
+  .lang-copy article h4{margin-bottom:18px;}
+  .lang-copy article p{margin-bottom:16px;font-size:15px;}
+
+  .stats-row{
+    display:flex;flex-wrap:wrap;gap:48px;
+    border-top:1px solid var(--n-300);border-bottom:1px solid var(--n-300);
+    padding:36px 0;margin-bottom:64px;
+  }
+  .stats-row div strong{display:block;font-size:34px;color:var(--n-800);font-weight:500;}
+  .stats-row div span{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--n-500);}
+
+  .clients-line{margin-bottom:64px;}
+  .clients-line p.label{text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--n-500);margin-bottom:14px;}
+  .clients-line .names{display:flex;gap:28px;flex-wrap:wrap;align-items:baseline;}
+  .clients-line .names strong{font-size:19px;color:var(--n-800);font-weight:500;}
+  .clients-line .names span{font-size:14px;color:var(--n-500);}
+
+  .credentials{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .credentials article{background:var(--n-200);padding:36px 32px;}
+  .credentials span.num{display:block;font-size:13px;letter-spacing:.08em;color:var(--n-500);margin-bottom:20px;}
+  .credentials h3{margin-bottom:12px;}
+  .credentials p{font-size:14.5px;color:var(--n-600);}
+
+  /* LOGO WALL */
+  .logo-wall-intro{max-width:640px;margin:-8px 0 48px;font-size:15px;color:var(--n-600);}
+  .logo-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--n-300);}
+  .logo-cell{
+    background:var(--n-100);aspect-ratio:2.2/1;display:flex;align-items:center;justify-content:center;
+    padding:16px;font-size:14px;letter-spacing:.03em;color:var(--n-600);text-align:center;
+    transition:.3s ease;font-weight:500;
+    min-width:0;overflow-wrap:break-word;word-break:break-word;
+  }
+  .logo-cell:hover{background:var(--n-800);color:var(--n-100);}
+  .logo-disclaimer{color:var(--n-500);font-size:12px;margin-top:22px;}
+
+  /* SERVICES */
+  .services-head{display:grid;grid-template-columns:.6fr 1fr;gap:29px;align-items:center;margin-bottom:56px;}
+  .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .services-grid .offset{margin-top:56px;}
+  .service-card{
+    position:relative;min-height:360px;overflow:hidden;color:var(--n-100);
+    display:flex;flex-direction:column;justify-content:flex-end;transition:transform .3s ease;
+  }
+  .service-card:hover{transform:translateY(4px);}
+  .service-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .6s cubic-bezier(.25,.46,.45,.94);}
+  .service-card:hover img{transform:scale(1.06);}
+  .service-card .grad{position:absolute;inset:0;z-index:1;background:linear-gradient(to top, rgba(0,0,0,.88), rgba(0,0,0,.25) 45%, transparent);}
+  .service-card .content{position:relative;z-index:2;padding:26px;}
+  .service-card .num{display:block;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:10px;letter-spacing:.08em;}
+  .service-card h3{color:var(--n-100);font-size:18px;margin-bottom:4px;}
+  .service-card h4{color:rgba(255,255,255,.75);font-size:12.5px;margin-bottom:8px;}
+  .service-card p{font-size:13.5px;color:rgba(255,255,255,.85);}
+
+  /* PROJECTS */
+  .featured{margin-bottom:56px;max-width:760px;}
+  .featured p.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--n-500);margin-bottom:16px;}
+  .featured span{color:var(--n-600);display:block;margin-top:16px;font-size:15px;}
+  .portfolio-item{
+    position:relative;min-height:460px;display:flex;align-items:center;overflow:hidden;color:var(--n-100);margin-bottom:24px;
+    transition:transform .3s ease;
+  }
+  .portfolio-item:hover{transform:translateY(4px);}
+  .portfolio-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .7s cubic-bezier(.25,.46,.45,.94);}
+  .portfolio-item:hover img{transform:scale(1.05);}
+  .portfolio-item .grad{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(to right, var(--n-800) 22%, rgba(5,5,5,.74) 40%, rgba(3,3,3,.4) 55%, transparent 75%);
+  }
+  .portfolio-item .content{position:relative;z-index:2;padding:52px;max-width:560px;}
+  .portfolio-top{display:flex;align-items:center;gap:18px;width:120px;margin-bottom:22px;color:rgba(255,255,255,.8);letter-spacing:.05em;font-size:13px;}
+  .portfolio-top .dash{flex:1;height:1px;background:var(--n-100);}
+  .portfolio-item h3{color:var(--n-100);margin-bottom:14px;}
+  .portfolio-item p{max-width:400px;color:rgba(255,255,255,.8);margin-bottom:0;font-size:14.5px;}
+
+  /* PROCESS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .steps article{background:var(--n-200);padding:34px 28px;}
+  .steps span.num{display:block;font-size:13px;letter-spacing:.08em;color:var(--n-500);margin-bottom:20px;}
+  .steps h3{margin-bottom:12px;font-size:20px;}
+  .steps p{font-size:14px;color:var(--n-600);}
+
+  /* CONTACT */
+  .contact-top{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:80px;flex-wrap:wrap;
+    padding-bottom:50px;margin-bottom:64px;border-bottom:1px solid var(--n-300);
+  }
+  .contact-top h2{max-width:420px;}
+  .contact-top .intro-copy{max-width:420px;font-size:15px;color:var(--n-600);margin-top:20px;}
+  .contact-links{display:flex;gap:60px;flex-wrap:wrap;}
+  .contact-link-item{max-width:260px;}
+  .contact-link-item .top-label{
+    display:flex;align-items:center;gap:16px;text-transform:uppercase;letter-spacing:.08em;font-size:13px;margin-bottom:14px;color:var(--n-500);
+  }
+  .contact-link-item .top-label .dash{flex:1;height:1px;background:var(--n-300);}
+  .contact-link-item .value{font-size:22px;color:var(--n-800);transition:color .3s;}
+  .contact-link-item .value:hover{color:var(--n-500);}
+  .social-links{display:flex;gap:14px;margin-top:28px;}
+  .social-links a{
+    width:40px;height:40px;border:1px solid var(--n-300);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;letter-spacing:.05em;color:var(--n-600);transition:.3s ease;
+  }
+  .social-links a:hover{border-color:var(--n-800);background:var(--n-800);color:var(--n-100);}
+
+  .contact-form-wrap{display:grid;grid-template-columns:1fr 1fr;gap:29px;}
+  .field{grid-column:span 1;}
+  .field.full{grid-column:1 / -1;}
+  form label{display:block;color:var(--n-800);font-weight:500;margin-bottom:8px;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;}
+  form input, form select, form textarea{
+    width:100%;background:transparent;border:none;border-bottom:1px solid var(--n-300);
+    padding:11px 2px;color:var(--n-800);font-family:inherit;font-size:15px;outline:none;transition:.3s ease;
+  }
+  form select{
+    -webkit-appearance:none;appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0L5 6L10 0' fill='none' stroke='%238c8c8c'/></svg>");
+    background-repeat:no-repeat;background-position:right 4px center;
+  }
+  form input:focus, form select:focus, form textarea:focus{border-color:var(--n-800);}
+  form textarea{resize:vertical;min-height:90px;}
+  .form-actions{grid-column:1 / -1;margin-top:12px;display:flex;flex-direction:column;gap:16px;align-items:flex-start;}
+  form button[type="submit"]{
+    border:none;cursor:pointer;font-family:inherit;
+    background:var(--n-800);color:var(--n-100);
+    text-transform:uppercase;letter-spacing:.04em;padding:20px 36px;font-size:14px;
+    transition:border-color .3s, color .3s, background-color .3s;border:1px solid var(--n-800);
+  }
+  form button[type="submit"]:hover{background:transparent;color:var(--n-800);}
+  .form-privacy{color:var(--n-500);font-size:12.5px;max-width:520px;}
+  .form-privacy a{color:var(--n-600);border-bottom:1px solid var(--n-300);}
+
+  /* FOOTER */
+  footer{background:var(--n-800);color:var(--n-300);border-top:1px solid rgba(255,255,255,.13);}
+  .footer-mid{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;padding:120px 0 130px;gap:48px;}
+  .footer-col.brand-col{flex:1;max-width:340px;}
+  .footer-logo{color:var(--n-100);font-size:18px;letter-spacing:.08em;text-transform:uppercase;display:inline-block;margin-bottom:20px;}
+  .footer-col.brand-col p{color:var(--n-300);margin-bottom:0;font-size:14.5px;}
+  .footer-nav-title{color:var(--n-100);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:16px;margin-bottom:28px;font-size:14px;}
+  .footer-nav-title .dash{flex:1;height:1px;background:var(--n-600);min-width:20px;}
+  .footer-col ul li{margin-bottom:16px;}
+  .footer-col ul a{color:rgba(255,255,255,.7);letter-spacing:.04em;text-transform:uppercase;font-size:13px;transition:color .3s, transform .3s;display:inline-block;}
+  .footer-col ul a:hover{color:var(--n-100);transform:translateX(2px);}
+  .social-link{display:flex;align-items:baseline;gap:12px;}
+  .social-dot{width:5px;height:5px;background:var(--n-100);border-radius:50%;flex:none;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.13);text-align:center;padding:32px 0;font-size:13.5px;color:var(--n-300);}
+
+  /* prevent long unbreakable content from blowing out grid tracks on narrow screens */
+  .hero-grid > *, .about-top > *, .lang-copy > *, .credentials > *, .logo-grid > *,
+  .services-head > *, .services-grid > *, .steps > *, .contact-form-wrap > *{min-width:0;}
+
+  /* RESPONSIVE */
+  @media(max-width:1200px){
+    nav a{padding:38px 11px;font-size:12px;}
+    .theme-toggle{width:44px;height:24px;}
+    .theme-toggle .tt-thumb{width:16px;height:16px;}
+    html[data-theme="dark"] .theme-toggle .tt-thumb{left:calc(100% - 19px);}
+    .header-cta{gap:10px;}
+  }
+  @media(max-width:991px){
+    .hero-grid{padding-left:48px;grid-template-columns:1fr;}
+    .about-top{grid-template-columns:1fr;}
+    .about-top .btns{justify-self:start;}
+    .lang-copy{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:repeat(2,1fr);}
+    .services-grid .offset{margin-top:0;}
+    .credentials{grid-template-columns:1fr;}
+    .logo-grid{grid-template-columns:repeat(4,1fr);}
+    .steps{grid-template-columns:repeat(2,1fr);}
+    .contact-form-wrap{grid-template-columns:1fr;}
+    .services-head{grid-template-columns:1fr;}
+  }
+  @media(max-width:767px){
+    nav{display:none;}
+    .header-cta .btn-secondary{display:none;}
+    .header-cta .theme-toggle{display:none;}
+    .burger{display:flex;}
+    section{padding:100px 0;}
+    .hero-grid{padding-left:24px;border-left:none;}
+    .portfolio-item{min-height:auto;padding:20px 0;}
+    .portfolio-item .grad{background:linear-gradient(to top, var(--n-800) 30%, rgba(0,0,0,.5));}
+    .portfolio-item .content{padding:32px 24px;}
+    .contact-links{gap:32px;}
+    .services-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr;}
+    .logo-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-mid{padding:90px 0;}
+  }
+  @media(max-width:480px){
+    .container{padding:0 18px;}
+    section{padding:80px 0;}
+    .logo{font-size:15px;}
+    .btn-row{flex-direction:column;align-items:stretch;}
+    .btn-row .btn-primary, .btn-row .btn-secondary{text-align:center;}
+    .hero-grid{padding-left:18px;}
+    .hero p.hero-text{max-width:100%;}
+    .stats-row{gap:28px;}
+    .stats-row div strong{font-size:28px;}
+    .clients-line .names{gap:16px;}
+    .contact-top{gap:32px;}
+    .contact-links{gap:24px;}
+    .portfolio-item .content{padding:24px 18px;}
+    .service-card{min-height:300px;}
+    .form-actions{align-items:stretch;}
+    form button[type="submit"]{width:100%;text-align:center;}
+    .footer-mid{flex-direction:column;gap:40px;}
+    .mobile-menu a{font-size:20px;}
+  }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{outline:2px solid var(--n-800);outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .underline-fill{transition:none;}
+    .scroll-down{transition:none;}
+    .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+    .hero-inner > *{opacity:1 !important;transform:none !important;animation:none !important;}
+  }
+
+  /* SCROLL-REVEAL */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.25,.46,.45,.94), transform .7s cubic-bezier(.25,.46,.45,.94);}
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  .reveal-stagger.in-view .reveal-child:nth-child(1){transition-delay:0s;}
+  .reveal-stagger.in-view .reveal-child:nth-child(2){transition-delay:.1s;}
+  .reveal-stagger.in-view .reveal-child:nth-child(3){transition-delay:.2s;}
+  .reveal-stagger.in-view .reveal-child:nth-child(4){transition-delay:.3s;}
+  .reveal-child{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.25,.46,.45,.94), transform .7s cubic-bezier(.25,.46,.45,.94);}
+  .reveal-stagger.in-view .reveal-child{opacity:1;transform:translateY(0);}
+
+  .hero-inner{opacity:0;transform:translateY(-20px);animation:heroIn 1s cubic-bezier(.25,.46,.45,.94) .2s forwards;}
+  .hero-inner .btn-row{opacity:0;animation:heroIn .8s cubic-bezier(.25,.46,.45,.94) .6s forwards;}
+  @keyframes heroIn{to{opacity:1;transform:translateY(0);}}
+  .scroll-down{animation:bob 2.2s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+  .scroll-down:hover{animation-play-state:paused;}
+
+  /* DARK VERSION (toggle) */
+  html[data-theme="dark"] body{background:var(--dm-bg);color:var(--dm-text);}
+  html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3, html[data-theme="dark"] h4{color:var(--dm-ink);}
+  html[data-theme="dark"] .subtitle-wrap{color:var(--dm-ink);}
+  html[data-theme="dark"] .underline-track{background:var(--dm-line);}
+  html[data-theme="dark"] .underline-fill{background:var(--dm-accent);}
+  html[data-theme="dark"] .btn-primary{background:var(--dm-accent);color:#0b0b0e;}
+  html[data-theme="dark"] .btn-primary:hover{background:transparent;border-color:var(--dm-accent);color:var(--dm-accent);}
+  html[data-theme="dark"] .btn-secondary{border-color:var(--dm-ink);color:var(--dm-ink);}
+  html[data-theme="dark"] .btn-secondary:hover{background:var(--dm-accent);color:#0b0b0e;border-color:var(--dm-accent);}
+  html[data-theme="dark"] .bg-light{background:var(--dm-surface);}
+  html[data-theme="dark"] .lang-copy article h3{color:var(--dm-muted);}
+  html[data-theme="dark"] .stats-row{border-color:var(--dm-line);}
+  html[data-theme="dark"] .stats-row div strong{color:var(--dm-accent);}
+  html[data-theme="dark"] .stats-row div span{color:var(--dm-muted);}
+  html[data-theme="dark"] .clients-line p.label, html[data-theme="dark"] .clients-line .names span{color:var(--dm-muted);}
+  html[data-theme="dark"] .clients-line .names strong{color:var(--dm-ink);}
+  html[data-theme="dark"] .credentials article{background:var(--dm-surface);}
+  html[data-theme="dark"] .credentials span.num, html[data-theme="dark"] .steps span.num{color:var(--dm-muted);}
+  html[data-theme="dark"] .credentials p, html[data-theme="dark"] .steps p{color:var(--dm-text);}
+  html[data-theme="dark"] .logo-wall-intro{color:var(--dm-text);}
+  html[data-theme="dark"] .logo-grid{background:var(--dm-line);}
+  html[data-theme="dark"] .logo-cell{background:var(--dm-bg);color:var(--dm-text);}
+  html[data-theme="dark"] .logo-cell:hover{background:var(--dm-accent);color:#0b0b0e;}
+  html[data-theme="dark"] .logo-disclaimer{color:var(--dm-muted);}
+  html[data-theme="dark"] .steps article{background:var(--dm-surface);}
+  html[data-theme="dark"] .contact-top{border-color:var(--dm-line);}
+  html[data-theme="dark"] .contact-top .intro-copy{color:var(--dm-text);}
+  html[data-theme="dark"] .contact-link-item .top-label{color:var(--dm-muted);}
+  html[data-theme="dark"] .contact-link-item .top-label .dash{background:var(--dm-line);}
+  html[data-theme="dark"] .contact-link-item .value{color:var(--dm-ink);}
+  html[data-theme="dark"] .contact-link-item .value:hover{color:var(--dm-accent);}
+  html[data-theme="dark"] .social-links a{border-color:var(--dm-line);color:var(--dm-text);}
+  html[data-theme="dark"] .social-links a:hover{border-color:var(--dm-accent);background:var(--dm-accent);color:#0b0b0e;}
+  html[data-theme="dark"] form label{color:var(--dm-ink);}
+  html[data-theme="dark"] form input, html[data-theme="dark"] form select, html[data-theme="dark"] form textarea{color:var(--dm-ink);border-color:var(--dm-line);}
+  html[data-theme="dark"] form select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0L5 6L10 0' fill='none' stroke='%23c7d0da'/></svg>");}
+  html[data-theme="dark"] form input:focus, html[data-theme="dark"] form select:focus, html[data-theme="dark"] form textarea:focus{border-color:var(--dm-accent);}
+  html[data-theme="dark"] form button[type="submit"]{background:var(--dm-accent);color:#0b0b0e;border-color:var(--dm-accent);}
+  html[data-theme="dark"] form button[type="submit"]:hover{background:transparent;color:var(--dm-accent);}
+  html[data-theme="dark"] .form-privacy{color:var(--dm-muted);}
+  html[data-theme="dark"] .form-privacy a{color:var(--dm-text);border-color:var(--dm-line);}
+  html[data-theme="dark"] body{transition:background-color .4s ease, color .4s ease;}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="container header-inner">
+    <a href="#top" class="logo">CAD Art <b>Design</b></a>
+    <nav>
+      <ul>
+        <li><a href="#about" data-fr="Studio">Studio</a></li>
+        <li><a href="#services" data-fr="Services">Services</a></li>
+        <li><a href="#projects" data-fr="Projets">Projects</a></li>
+        <li><a href="#contact" data-fr="Contact">Contact</a></li>
+        <li>
+          <div class="lang-toggle">
+            <button type="button" class="active" data-lang="en">EN</button>
+            <i></i>
+            <button type="button" data-lang="fr">FR</button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="header-cta">
+      <a href="#contact" class="btn-secondary dark" style="padding:14px 24px;" data-fr="Démarrer un projet">Start a project</a>
+      <button type="button" id="themeToggle" class="theme-toggle" role="switch" aria-checked="false" aria-label="Toggle dark theme" data-fr-aria="Basculer le thème sombre">
+        <svg class="tt-icon tt-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 3v2M12 19v2M5 5l1.4 1.4M17.6 17.6L19 19M3 12h2M19 12h2M5 19l1.4-1.4M17.6 6.4L19 5"/></svg>
+        <svg class="tt-icon tt-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <span class="tt-thumb"></span>
+      </button>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" data-fr="Studio">Studio</a>
+  <a href="#services" data-fr="Services">Services</a>
+  <a href="#projects" data-fr="Projets">Projects</a>
+  <a href="#contact" data-fr="Contact">Contact</a>
+  <a href="#contact" class="mobile-cta" data-fr="Démarrer un projet">Start a project</a>
+  <div class="lang-toggle mobile-lang">
+    <button type="button" class="active" data-lang="en">EN</button>
+    <i></i>
+    <button type="button" data-lang="fr">FR</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top" style="padding:0;">
+  <div class="hero-grid">
+    <div class="hero-inner">
+      <div class="subtitle-wrap white">
+        <div data-fr="Studio de fabrication créative">Creative fabrication studio</div>
+        <div class="underline-track white-track js-underline"><div class="underline-fill white-fill"></div></div>
+      </div>
+      <h1 class="color-white" data-fr="Des idées construites sans limites.">Ideas built without limits.</h1>
+      <p class="lead" data-fr="18 ans de conception et de fabrication éprouvées au cinéma">18 years of film-proven design and fabrication</p>
+      <p class="hero-text" data-fr="Du premier croquis à l&#39;installation finale, nous concevons et construisons des décors, accessoires, sculptures et environnements mobiles ambitieux — conçus avec précision, finis avec soin et prêts à performer.">From the first sketch to the final installation, we design and build ambitious sets, props, sculptures and moving environments — precisely engineered, beautifully finished and ready to perform.</p>
+      <div class="btn-row">
+        <a href="#contact" class="btn-primary white" data-fr="Démarrer un projet">Start a project</a>
+        <a href="#projects" class="btn-secondary dark" data-fr="Projets sélectionnés">Selected projects</a>
+      </div>
+    </div>
+  </div>
+  <a href="#about" class="scroll-down" aria-label="Scroll down" data-fr-aria="Défiler vers le bas">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</section>
+
+<!-- ABOUT / BILINGUAL -->
+<section id="about">
+  <div class="container">
+    <div class="about-images">
+      <video class="img-back" autoplay muted loop playsinline>
+        <source src="video/about.webm" type="video/webm">
+      </video>
+    </div>
+    <div class="subtitle-wrap js-parent reveal">
+      <div><span data-fr="Qui sommes-nous ">Who we are</span></div>
+      <div class="underline-track js-underline"><div class="underline-fill"></div></div>
+    </div>
+
+    <div class="about-top reveal">
+
+      <h2><span data-fr="Une vision. Deux langues."></span>One vision. Two languages.</span></h2>
+    </div>
+
+    <div class="lang-copy reveal">
+      <article>
+        <h4><span data-fr="Nés en Ukraine. Créateurs sans frontières.">Born in Ukraine. Building without borders.</span></h4>
+        <p><span data-fr="Notre histoire a commencé en Ukraine, où nous travaillons depuis 18 ans dans la production cinématographique, la construction de décors et la fabrication sur mesure. Notre savoir-faire s'est développé sur des plateaux exigeants, en transformant des idées ambitieuses en environnements réels conçus pour l'image.">Our story began in Ukraine, where for 18 years we have worked at the intersection of film production, scenic construction and custom fabrication. We learned our craft on demanding sets — turning ambitious creative ideas into physical environments made for the camera and built to perform.</span></p>
+        <p><span data-fr="La guerre a séparé notre équipe et changé notre géographie, sans changer notre vocation. Une nouvelle antenne a été créée à Toronto tandis que la production se poursuivait en Ukraine. Aujourd'hui, CAD Art Design réalise des projets au Canada, en Ukraine et en Europe.">When the war divided our team, it changed our geography, but not our purpose. A new branch was established in Toronto while production continued in Ukraine. Today, CAD Art Design works across Canada, Ukraine and Europe, bringing the same experience, resilience and attention to detail to every project.</span></p>
+      </article>
+    </div>
+
+    <div class="stats-row reveal">
+      <div><strong>18</strong><span data-fr="Ans en cinéma et décors">Years in film &amp; scenery</span></div>
+      <div><strong>3</strong><span data-fr="Régions de production">Regions of production</span></div>
+      <div><strong>35+</strong><span data-fr="Compétences créatives">Creative capabilities</span></div>
+      <div><strong>1</strong><span data-fr="Équipe sans frontières">Team across borders</span></div>
+      <div class="btns"><a href="#contact" class="btn-primary" data-fr="Projets sélectionnés">Start a project</a></div>
+    </div>
+
+    <div class="clients-line reveal">
+      <p class="label" data-fr="Ils nous font confiance pour leurs projets">Trusted on projects for</p>
+      <div class="names">
+        <strong>MrBeast</strong>
+        <strong>Mercedes-Benz</strong>
+        <strong>Philip Morris Ukraine</strong>
+        <span data-fr="et d&#39;autres grandes marques de production, de publicité et internationales">and other leading production, advertising and international brands</span>
+      </div>
+    </div>
+
+    <div class="credentials reveal-stagger">
+      <article class="reveal-child">
+        <span class="num">01</span>
+        <h3 data-fr="Discipline éprouvée au cinéma">Film-proven discipline</h3>
+        <p data-fr="Nous comprenons les échéanciers exigeants, les finitions prêtes pour la caméra, les contraintes techniques et la responsabilité de livrer quand la production en dépend.">We understand demanding schedules, camera-ready finishes, technical constraints and the responsibility of delivering when production depends on it.</p>
+      </article>
+      <article class="reveal-child">
+        <span class="num">02</span>
+        <h3 data-fr="Une véritable production à cycle complet">True full-cycle production</h3>
+        <p data-fr="Développement créatif, storyboards, maquettes, ingénierie, fabrication, finition et installation sont coordonnés comme un seul processus clair.">Creative development, storyboards, models, engineering, fabrication, finishing and installation are coordinated as one clear process.</p>
+      </article>
+      <article class="reveal-child">
+        <span class="num">03</span>
+        <h3 data-fr="Construit sans frontières">Built across borders</h3>
+        <p data-fr="Nos équipes connectées à Toronto et en Ukraine étendent notre capacité de production au Canada, en Ukraine et en Europe.">Our connected teams in Toronto and Ukraine extend production capability across Canada, Ukraine and European project locations.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- LOGO WALL -->
+<section class="bg-light" aria-labelledby="collaborations-title">
+  <div class="container">
+    <div class="subtitle-wrap js-parent reveal">
+      <div data-fr="Collaborations sélectionnées">Selected collaborations</div>
+      <div class="underline-track js-underline"><div class="underline-fill"></div></div>
+    </div>
+    <h2 class="reveal" id="collaborations-title" style="margin-bottom:20px;" data-fr="Marques et studios avec qui nous avons collaboré">Brands and studios we've worked with</h2>
+    <p class="logo-wall-intro reveal" data-fr="Marques, diffuseurs, sociétés de production et équipes créatives associés à notre travail dans le cinéma, la publicité, le divertissement et les expériences en direct.">Brands, broadcasters, production companies and creative teams connected to our work across film, advertising, entertainment and live experiences.</p>
+    <div class="logo-grid reveal">
+      <div class="logo-cell">MrBeast</div>
+      <div class="logo-cell">Asahi</div>
+      <div class="logo-cell">Beter Live</div>
+      <div class="logo-cell">Tide</div>
+      <div class="logo-cell">Rozetka</div>
+      <div class="logo-cell">Oculus</div>
+      <div class="logo-cell">Meta</div>
+      <div class="logo-cell">Doritos</div>
+      <div class="logo-cell">Adidas</div>
+      <div class="logo-cell">Mercedes-Benz</div>
+      <div class="logo-cell">Netflix</div>
+      <div class="logo-cell">TIFF</div>
+      <div class="logo-cell">Paramount+</div>
+      <div class="logo-cell">Film.ua</div>
+      <div class="logo-cell">Danforth Music Hall</div>
+      <div class="logo-cell">Top Chef</div>
+      <div class="logo-cell">Osnova Film</div>
+      <div class="logo-cell">Radioaktive Film</div>
+      <div class="logo-cell">SE Film Production</div>
+      <div class="logo-cell">Shelter</div>
+      <div class="logo-cell">Martini Film Studios</div>
+      <div class="logo-cell">C Mark</div>
+      <div class="logo-cell">1+1</div>
+      <div class="logo-cell">AIM</div>
+      <div class="logo-cell">Kvartal 95</div>
+      <div class="logo-cell">Family</div>
+      <div class="logo-cell">T-Mobile</div>
+      <div class="logo-cell">Coca-Cola</div>
+      <div class="logo-cell">OLX Kazakhstan</div>
+      <div class="logo-cell">Studio Connelly</div>
+    </div>
+    <p class="logo-disclaimer" data-fr="Toutes les marques appartiennent à leurs propriétaires respectifs. Affichées uniquement à des fins d&#39;historique de projets et d&#39;identification de portfolio ; aucune approbation n&#39;est sous-entendue.">All trademarks belong to their respective owners. Displayed for project-history and portfolio identification only; no endorsement is implied.</p>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="subtitle-wrap js-parent reveal">
+      <div data-fr="Nos services">Our services</div>
+      <div class="underline-track js-underline"><div class="underline-fill"></div></div>
+    </div>
+    <div class="services-head reveal">
+      <div>
+        <h2 style="margin-bottom:32px;">Services / Services</h2>
+        <a href="#contact" class="btn-secondary" data-fr="Démarrer un projet">Start a project</a>
+      </div>
+      <p style="max-width:520px;" data-fr="Treize compétences couvrant le développement créatif, la fabrication et l&#39;installation — coordonnées comme un seul processus clair, du premier croquis à la livraison finale.">Thirteen capabilities spanning creative development, fabrication and installation — coordinated as one clear process from first sketch to final handover.</p>
+    </div>
+
+    <div class="services-grid reveal-stagger">
+      <div class="service-card reveal-child"><img loading="lazy" src="https://picsum.photos/id/1074/600/700" alt="Custom Props"><div class="grad"></div><div class="content"><span class="num">01</span><h3>Custom Props</h3><h4>Accessoires sur mesure</h4><p>Hero props, miniatures and oversized objects for camera, events and public interaction.</p></div></div>
+      <div class="service-card reveal-child offset"><img loading="lazy" src="https://picsum.photos/id/1078/600/700" alt="Set Construction"><div class="grad"></div><div class="content"><span class="num">02</span><h3>Set Construction</h3><h4>Construction de décors</h4><p>Film, television, commercial and live-event sets — drawings through installation.</p></div></div>
+      <div class="service-card reveal-child"><img loading="lazy" src="https://picsum.photos/id/1062/600/700" alt="Themed Environments"><div class="grad"></div><div class="content"><span class="num">03</span><h3>Themed Environments</h3><h4>Environnements thématiques</h4><p>Immersive spaces for retail, hospitality, museums and events.</p></div></div>
+      <div class="service-card reveal-child offset"><img loading="lazy" src="https://picsum.photos/id/1080/600/700" alt="Special Effects"><div class="grad"></div><div class="content"><span class="num">04</span><h3>Special Effects</h3><h4>Effets spéciaux</h4><p>Practical and atmospheric effects planned around camera and venue.</p></div></div>
+
+      <div class="service-card reveal-child"><img loading="lazy" src="https://picsum.photos/id/1084/600/700" alt="Brand Activations"><div class="grad"></div><div class="content"><span class="num">05</span><h3>Brand Activations</h3><h4>Activations de marque</h4><p>Shareable pop-ups, launches and branded environments.</p></div></div>
+      <div class="service-card reveal-child offset"><img loading="lazy" src="https://picsum.photos/id/1060/600/700" alt="Installations"><div class="grad"></div><div class="content"><span class="num">06</span><h3>Installations</h3><h4>Installations</h4><p>Architectural, theatrical and seasonal installations, fabrication through strike.</p></div></div>
+      <div class="service-card reveal-child"><img loading="lazy" src="https://picsum.photos/id/1011/600/700" alt="Custom Sculpture"><div class="grad"></div><div class="content"><span class="num">07</span><h3>Custom Sculpture</h3><h4>Sculpture sur mesure</h4><p>Sculptural objects developed through modelling, carving and finishing.</p></div></div>
+      <div class="service-card reveal-child offset"><img loading="lazy" src="https://picsum.photos/id/1025/600/700" alt="Signage & Display"><div class="grad"></div><div class="content"><span class="num">08</span><h3>Signage &amp; Display</h3><h4>Enseignes et présentoirs</h4><p>Dimensional logos, illuminated signage, façade and display systems.</p></div></div>
+
+      <div class="service-card reveal-child"><img loading="lazy" src="https://picsum.photos/id/1005/600/700" alt="Concept Development"><div class="grad"></div><div class="content"><span class="num">09</span><h3>Concept Development</h3><h4>Développement de concept</h4><p>Creative direction, visual language, material strategy and scope.</p></div></div>
+      <div class="service-card reveal-child offset"><img loading="lazy" src="https://picsum.photos/id/1015/600/700" alt="Design & Storyboards"><div class="grad"></div><div class="content"><span class="num">10</span><h3>Design &amp; Storyboards</h3><h4>Design et storyboards</h4><p>Visual narratives showing how a space or scene will unfold.</p></div></div>
+      <div class="service-card reveal-child"><img loading="lazy" src="https://picsum.photos/id/1035/600/700" alt="Models & Visualisation"><div class="grad"></div><div class="content"><span class="num">11</span><h3>Models &amp; Visualisation</h3><h4>Maquettes et visualisation</h4><p>Scale models, 3D studies and presentation-ready visualisations.</p></div></div>
+      <div class="service-card reveal-child offset"><img loading="lazy" src="https://picsum.photos/id/1043/600/700" alt="Technical & Kinetic Design"><div class="grad"></div><div class="content"><span class="num">12</span><h3>Technical &amp; Kinetic Design</h3><h4>Conception technique et cinétique</h4><p>Production drawings and custom moving structures, engineered for safety.</p></div></div>
+
+      <div class="service-card reveal-child" style="grid-column:span 2;"><img loading="lazy" src="https://picsum.photos/id/1040/1200/700" alt="Miniatures & Scale Models"><div class="grad"></div><div class="content"><span class="num">13</span><h3>Miniatures &amp; Scale Models</h3><h4>Miniatures et maquettes</h4><p>Precision miniatures and physical scale models for film, presentations and pre-production testing.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="bg-dark">
+  <div class="container">
+    <div class="subtitle-wrap white js-parent reveal">
+      <div data-fr="Projets sélectionnés">Selected projects</div>
+      <div class="underline-track white-track js-underline"><div class="underline-fill white-fill"></div></div>
+    </div>
+    <div class="featured reveal">
+      <p class="eyebrow" data-fr="Capacité de fabrication créative">Creative fabrication capability</p>
+      <h2 class="color-white" data-fr="Construit pour l&#39;impact. Conçu pour performer.">Built for impact. Engineered to perform.</h2>
+      <span style="color:var(--n-300);" data-fr="Des univers de marque immersifs aux décors de cinéma et aux sculptures monumentales, chaque détail sert l&#39;idée et le public.">From immersive brand worlds to film sets and monumental sculptural objects, every detail serves the idea and the audience.</span>
+    </div>
+
+    <a href="#" class="portfolio-item reveal">
+      <img loading="lazy" src="https://picsum.photos/id/1060/1200/800" alt="Event Productions">
+      <div class="grad"></div>
+      <div class="content">
+        <div class="portfolio-top"><span>01</span><span class="dash"></span><span>03</span></div>
+        <h3 data-fr="Productions événementielles">Event Productions</h3>
+        <p data-fr="Environnements en direct — scènes, activations et espaces de marque conçus pour un public en direct.">Live environments — stages, activations and branded spaces built for a live audience.</p>
+      </div>
+    </a>
+    <a href="#" class="portfolio-item reveal">
+      <img loading="lazy" src="https://picsum.photos/id/1074/1200/800" alt="Film & Scenic Builds">
+      <div class="grad"></div>
+      <div class="content">
+        <div class="portfolio-top"><span>02</span><span class="dash"></span><span>03</span></div>
+        <h3 data-fr="Décors de cinéma">Film &amp; Scenic Builds</h3>
+        <p data-fr="Décors et scénographie conçus pour la caméra, réalisés selon des échéanciers de production exigeants.">Sets and scenery engineered for camera, built to demanding production schedules.</p>
+      </div>
+    </a>
+    <a href="#" class="portfolio-item reveal" style="margin-bottom:0;">
+      <img loading="lazy" src="https://picsum.photos/id/1084/1200/800" alt="Custom Fabrication">
+      <div class="grad"></div>
+      <div class="content">
+        <div class="portfolio-top"><span>03</span><span class="dash"></span><span>03</span></div>
+        <h3 data-fr="Fabrication sur mesure">Custom Fabrication</h3>
+        <p data-fr="Accessoires et sculptures — du premier croquis à un objet fini, prêt pour la caméra.">Props and sculpture — from first sketch to a finished, camera-ready object.</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="container">
+    <div class="subtitle-wrap js-parent reveal">
+      <div data-fr="Notre façon de travailler">How we work</div>
+      <div class="underline-track js-underline"><div class="underline-fill"></div></div>
+    </div>
+    <h2 class="reveal" style="margin-bottom:48px;max-width:560px;" data-fr="Un processus clair, du premier croquis à la livraison finale">A clear process from first sketch to final handover</h2>
+    <div class="steps reveal-stagger">
+      <article class="reveal-child"><span class="num">01</span><h3 data-fr="Découvrir">Discover</h3><p data-fr="Nous définissons le brief, le public, le site, l&#39;échéancier, les mouvements et les exigences techniques.">We define the brief, audience, site, timeline, movement and technical requirements.</p></article>
+      <article class="reveal-child"><span class="num">02</span><h3 data-fr="Concevoir">Design</h3><p data-fr="Les concepts créatifs deviennent storyboards, visualisations 3D, maquettes et plans prêts pour la production.">Creative concepts become storyboards, 3D visualisations, models and production-ready drawings.</p></article>
+      <article class="reveal-child"><span class="num">03</span><h3 data-fr="Fabriquer">Fabricate</h3><p data-fr="Notre équipe construit des structures fixes et mobiles avec une production, une finition et un contrôle qualité soignés.">Our team builds static and moving structures with skilled production, finishing and quality control.</p></article>
+      <article class="reveal-child"><span class="num">04</span><h3 data-fr="Installer">Install</h3><p data-fr="Nous coordonnons la livraison, l&#39;installation, les tests et la remise finale à travers le Canada, l&#39;Ukraine et l&#39;Europe.">We coordinate delivery, installation, testing and final handover across Canada, Ukraine and Europe.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="subtitle-wrap js-parent reveal">
+      <div data-fr="Démarrer un projet">Start a project</div>
+      <div class="underline-track js-underline"><div class="underline-fill"></div></div>
+    </div>
+
+    <div class="contact-top reveal">
+      <div>
+        <h2 data-fr="Apportez-nous l&#39;idée que d&#39;autres jugent impossible.">Bring us the idea others call impossible.</h2>
+        <p class="intro-copy" data-fr="Partagez la vision, l&#39;ampleur et l&#39;échéance. Nous vous aiderons à définir la meilleure voie du concept à une expérience physique finie — et à vous donner une prochaine étape claire.">Share the vision, scale and deadline. We will help define the smartest route from concept to a finished physical experience — and give you a clear next step.</p>
+        <div class="social-links" aria-label="Social media">
+          <a href="#contact" title="WhatsApp"><span>WA</span></a>
+          <a href="#contact" title="TikTok"><span>♪</span></a>
+          <a href="#contact" title="LinkedIn"><span>in</span></a>
+          <a href="#contact" title="Facebook"><span>f</span></a>
+          <a href="https://www.instagram.com/cadartdesign/" title="Instagram"><span>◎</span></a>
+        </div>
+      </div>
+      <div class="contact-links">
+        <div class="contact-link-item">
+          <div class="top-label"><span data-fr="Adresse">Address</span><span class="dash"></span></div>
+          <div class="value">Toronto, ON, CA</div>
+        </div>
+        <a href="mailto:hello@cadartdesign.com" class="contact-link-item">
+          <div class="top-label"><span data-fr="Courriel">Email</span><span class="dash"></span></div>
+          <div class="value" style="font-size:18px;">hello@cadartdesign.com</div>
+        </a>
+        <a href="tel:+10000000000" class="contact-link-item">
+          <div class="top-label"><span data-fr="Téléphone">Phone</span><span class="dash"></span></div>
+          <div class="value">+1 (000) 000-00</div>
+        </a>
+      </div>
+    </div>
+
+    <form class="contact-form-wrap reveal">
+      <div class="field"><label data-fr="Nom du projet">Project name</label><input required placeholder="Working title" data-fr-placeholder="Titre provisoire" name="project"></div>
+      <div class="field"><label data-fr="Votre nom">Your name</label><input required placeholder="Name / company" data-fr-placeholder="Nom / entreprise" name="name"></div>
+
+      <div class="field">
+        <label data-fr="Type de projet">Project type</label>
+        <select required>
+          <option value="" disabled selected data-fr="Sélectionnez un service">Select a service</option>
+          <option data-fr="Accessoires sur mesure">Custom Props</option>
+          <option data-fr="Construction de décors">Set Construction</option>
+          <option data-fr="Environnements thématiques">Themed Environments</option>
+          <option data-fr="Effets spéciaux">Special Effects</option>
+          <option data-fr="Activations de marque">Brand Activations</option>
+          <option data-fr="Installations">Installations</option>
+          <option data-fr="Sculpture sur mesure">Custom Sculpture</option>
+          <option data-fr="Enseignes et présentoirs">Signage &amp; Display</option>
+          <option data-fr="Développement de concept">Concept Development</option>
+          <option data-fr="Design et storyboards">Design &amp; Storyboards</option>
+          <option data-fr="Maquettes et visualisation">Models &amp; Visualisation</option>
+          <option data-fr="Conception technique et cinétique">Technical &amp; Kinetic Design</option>
+          <option data-fr="Miniatures et maquettes">Miniatures &amp; Scale Models</option>
+        </select>
+      </div>
+      <div class="field"><label data-fr="Lieu">Location</label><input placeholder="City / venue" data-fr-placeholder="Ville / lieu" name="location"></div>
+
+      <div class="field">
+        <label data-fr="Budget estimé">Estimated budget</label>
+        <select>
+          <option value="" disabled selected data-fr="Sélectionnez une fourchette">Select a range</option>
+          <option data-fr="Moins de 5 000 $">Under $5,000</option>
+          <option data-fr="5 000 $ – 15 000 $">$5,000–$15,000</option>
+          <option data-fr="15 000 $ – 50 000 $">$15,000–$50,000</option>
+          <option data-fr="50 000 $ et plus">$50,000+</option>
+        </select>
+      </div>
+      <div class="field"><label data-fr="Échéance">Deadline</label><input type="date" name="deadline"></div>
+
+      <div class="field full"><label data-fr="Décrivez votre vision">Describe your vision</label><textarea required name="vision" rows="4" placeholder="Idea, scale, audience and any important requirements" data-fr-placeholder="Idée, ampleur, public et exigences importantes"></textarea></div>
+
+      <div class="field"><label data-fr="Courriel">Email</label><input required type="email" placeholder="you@company.com" name="email"></div>
+      <div class="field"><label data-fr="Téléphone">Phone</label><input placeholder="Phone / WhatsApp" data-fr-placeholder="Téléphone / WhatsApp" name="phone"></div>
+
+      <div class="form-actions">
+        <button type="submit" data-fr="Envoyer le brief de projet">Send project brief</button>
+        <p class="form-privacy" data-fr-html="En envoyant ce brief, vous acceptez que CAD Art Design utilise les informations fournies pour répondre à votre demande. Consultez notre &lt;a href=&quot;#&quot;&gt;Politique de confidentialité&lt;/a&gt;.">By sending this brief, you agree that CAD Art Design may use the information provided to respond to your enquiry. Read our <a href="#">Privacy Policy</a>.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-mid">
+      <div class="footer-col brand-col">
+        <a href="#top" class="footer-logo">CAD Art Design</a>
+        <p data-fr="Studio de fabrication créative. Accessoires, décors, sculptures et environnements immersifs sur mesure — conçus et fabriqués à Toronto, avec une production en Ukraine et en Europe.">Creative fabrication studio. Custom props, sets, sculpture and immersive environments — designed and built in Toronto, with production in Ukraine and Europe.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-nav-title"><span data-fr="Pages">Pages</span><span class="dash"></span></div>
+        <ul>
+          <li><a href="#about" data-fr="Studio">Studio</a></li>
+          <li><a href="#services" data-fr="Services">Services</a></li>
+          <li><a href="#projects" data-fr="Projets">Projects</a></li>
+          <li><a href="#contact" data-fr="Démarrer un projet">Start a project</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-nav-title"><span data-fr="Suivez-nous">Follow us</span><span class="dash"></span></div>
+        <ul>
+          <li><a class="social-link" href="https://www.instagram.com/cadartdesign/" target="_blank" rel="noopener"><span class="social-dot"></span>Instagram</a></li>
+          <li><a class="social-link" href="#contact"><span class="social-dot"></span>WhatsApp</a></li>
+          <li><a class="social-link" href="mailto:hello@cadartdesign.com"><span class="social-dot"></span>Email</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom" data-fr="© 2026 CAD Art Design. Studio de fabrication créative, Toronto, Ontario, Canada.">© 2026 CAD Art Design. Creative fabrication studio, Toronto, Ontario, Canada.</div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        e.target.classList.add('in-view');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.2});
+  document.querySelectorAll('.js-underline, .reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+  const langButtons = document.querySelectorAll('.lang-toggle button');
+
+  function setLanguage(lang){
+    document.documentElement.setAttribute('lang', lang);
+
+    document.querySelectorAll('[data-fr]').forEach(el => {
+      if (el.dataset.enOrig === undefined) el.dataset.enOrig = el.textContent;
+      el.textContent = lang === 'fr' ? el.dataset.fr : el.dataset.enOrig;
+    });
+
+    document.querySelectorAll('[data-fr-html]').forEach(el => {
+      if (el.dataset.enHtml === undefined) el.dataset.enHtml = el.innerHTML;
+      el.innerHTML = lang === 'fr' ? el.dataset.frHtml : el.dataset.enHtml;
+    });
+
+    document.querySelectorAll('[data-fr-placeholder]').forEach(el => {
+      if (el.dataset.enPlaceholder === undefined) el.dataset.enPlaceholder = el.getAttribute('placeholder') || '';
+      el.setAttribute('placeholder', lang === 'fr' ? el.dataset.frPlaceholder : el.dataset.enPlaceholder);
+    });
+
+    document.querySelectorAll('[data-fr-aria]').forEach(el => {
+      if (el.dataset.enAria === undefined) el.dataset.enAria = el.getAttribute('aria-label') || '';
+      el.setAttribute('aria-label', lang === 'fr' ? el.dataset.frAria : el.dataset.enAria);
+    });
+
+    document.querySelectorAll('.lang-toggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+
+    localStorage.setItem('cad-lang', lang);
+  }
+
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+  });
+
+  const savedLang = localStorage.getItem('cad-lang');
+  if (savedLang === 'fr') setLanguage('fr');
+
+  const briefForm = document.querySelector('#contact form');
+  briefForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Thanks! This form needs a backend/email endpoint connected before it goes live.');
+  });
+
+  const themeToggle = document.getElementById('themeToggle');
+  const rootEl = document.documentElement;
+  function applyTheme(theme){
+    if(theme === 'dark'){
+      rootEl.setAttribute('data-theme','dark');
+      themeToggle.setAttribute('aria-checked','true');
+    } else {
+      rootEl.removeAttribute('data-theme');
+      themeToggle.setAttribute('aria-checked','false');
+    }
+  }
+  const savedTheme = localStorage.getItem('cad-theme');
+  applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+  themeToggle.addEventListener('click', () => {
+    const isDark = rootEl.getAttribute('data-theme') === 'dark';
+    const next = isDark ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('cad-theme', next);
+  });
+</script>
+
+</body>
+</html>
